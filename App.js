@@ -8,6 +8,7 @@
 
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, FlatList} from 'react-native';
+import Date from './src/components/Dates';
 
 const App = () => {
   // Define state of dates
@@ -23,18 +24,9 @@ const App = () => {
         <Text style={styles.title}>Administrador de Citas</Text>
         <FlatList
           data={dates}
-          renderItem={({item}) => (
-            <View>
-              <Text>{item.pacient} </Text>
-            </View>
-          )}
+          renderItem={({item}) => <Date date={item} />}
           keyExtractor={date => date.id}
         />
-        {/* {dates.map(date => (
-          <View>
-            <Text>{date.pacient} </Text>
-          </View>
-        ))} */}
       </View>
     </>
   );
