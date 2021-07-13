@@ -17,14 +17,24 @@ const App = () => {
     {id: '2', pacient: 'Redux', propietary: 'Mapaz', sintoms: 'No duerme'},
     {id: '3', pacient: 'Native', propietary: 'Yuliana', sintoms: 'No canta'},
   ]);
-
+  //Delete
+  const deletePacient = id => {
+    setDates(dateActual => {
+      return dateActual.filter(date => date.id !== id);
+    });
+  };
   return (
     <>
       <View style={styles.container}>
         <Text style={styles.title}>Administrador de Citas</Text>
+        <Text style={styles.title}>
+          {dates.length > 0 ? 'Administra tus Citas' : 'No hay citas'}{' '}
+        </Text>
         <FlatList
           data={dates}
-          renderItem={({item}) => <Date date={item} />}
+          renderItem={({item}) => (
+            <Date date={item} deletePacient={deletePacient} />
+          )}
           keyExtractor={date => date.id}
         />
       </View>
@@ -39,6 +49,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 40,
+    marginBottom: 20,
     textAlign: 'center',
     fontSize: 24,
     fontWeight: 'bold',

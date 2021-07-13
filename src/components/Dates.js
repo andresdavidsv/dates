@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 
-const Date = ({ date }) => {
-  const modalDelete = () => {
-    console.log('Eliminar');
+const Date = ({date, deletePacient}) => {
+  const modalDelete = id => {
+    console.log('Eliminar', id);
+    deletePacient(id);
   };
   return (
     <View style={styles.containerDate}>
@@ -21,7 +22,7 @@ const Date = ({ date }) => {
       </View>
       <View>
         <TouchableHighlight
-          onPress={() => modalDelete()}
+          onPress={() => modalDelete(date.id)}
           style={styles.btnDelete}>
           <Text style={styles.textDelete}> Eliminar &times;</Text>
         </TouchableHighlight>
