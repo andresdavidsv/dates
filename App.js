@@ -9,6 +9,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, FlatList} from 'react-native';
 import Date from './src/components/Dates';
+import Form from './src/components/Form';
 
 const App = () => {
   // Define state of dates
@@ -27,6 +28,7 @@ const App = () => {
     <>
       <View style={styles.container}>
         <Text style={styles.title}>Administrador de Citas</Text>
+        <Form />
         <Text style={styles.title}>
           {dates.length > 0 ? 'Administra tus Citas' : 'No hay citas'}{' '}
         </Text>
