@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    marginTop: 40,
+    marginTop: 20,
     marginBottom: 20,
     textAlign: 'center',
     fontSize: 24,

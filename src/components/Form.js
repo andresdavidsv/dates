@@ -1,8 +1,21 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  TouchableHighlight,
+  Alert
+} from 'react-native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const Form = () => {
+  const [pacient, savePacient] = useState('');
+  const [propietary, savePropietary] = useState('');
+  const [phone, savePhone] = useState('');
+  const [sintoms, saveSintoms] = useState('');
+
   const [date, saveDate] = useState('');
   const [time, saveTime] = useState('');
 
@@ -36,6 +49,32 @@ const Form = () => {
     saveTime(time.toLocaleTimeString('en-US', options));
     hideTimePicker();
   };
+  const submitDate = () => {
+    if (
+      pacient.trim() === '' ||
+      propietary.trim() === '' ||
+      phone.trim() === '' ||
+      date.trim() === '' ||
+      time.trim() === '' ||
+      sintoms.trim() === ''
+    ) {
+      showAlert();
+      return;
+    }
+  };
+
+  const showAlert = () => {
+    Alert.alert(
+      'Error', //Title
+      'All fields are required', // Message
+      [
+        {
+          text: 'Ok', //Btn
+        },
+      ],
+    );
+  };
+
   return (
     <>
       <View style={styles.container}>
@@ -43,21 +82,21 @@ const Form = () => {
           <Text style={styles.label}>Pacient: </Text>
           <TextInput
             style={styles.input}
-            onChangeText={text => console.log(text)}
+            onChangeText={text => savePacient(text)}
           />
         </View>
         <View>
-          <Text style={styles.label}>Propiety: </Text>
+          <Text style={styles.label}>Propietary: </Text>
           <TextInput
             style={styles.input}
-            onChangeText={text => console.log(text)}
+            onChangeText={text => savePropietary(text)}
           />
         </View>
         <View>
           <Text style={styles.label}>Phone: </Text>
           <TextInput
             style={styles.input}
-            onChangeText={text => console.log(text)}
+            onChangeText={text => savePhone(text)}
             keyboardType={'numeric'}
           />
         </View>
@@ -89,8 +128,15 @@ const Form = () => {
           <TextInput
             multiline
             style={styles.input}
-            onChangeText={text => console.log(text)}
+            onChangeText={text => saveSintoms(text)}
           />
+        </View>
+        <View>
+          <TouchableHighlight
+            onPress={() => submitDate()}
+            style={styles.btnSubmit}>
+            <Text style={styles.textSubmit}> Submit</Text>
+          </TouchableHighlight>
         </View>
       </View>
     </>
@@ -114,6 +160,16 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: '#e1e1e1',
     borderStyle: 'solid',
+  },
+  btnSubmit: {
+    padding: 10,
+    backgroundColor: '#7D024E',
+    marginVertical: 10,
+  },
+  textSubmit: {
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
