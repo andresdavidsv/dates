@@ -6,17 +6,25 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableHighlight,
+  Platform,
+} from 'react-native';
 import Date from './src/components/Dates';
 import Form from './src/components/Form';
 
 const App = () => {
+  const [showForm, saveShowForm] = useState(false);
   // Define state of dates
   const [dates, setDates] = useState([
-    {id: '1', pacient: 'Hook', propietary: 'Andres', sintoms: 'No come'},
-    {id: '2', pacient: 'Redux', propietary: 'Mapaz', sintoms: 'No duerme'},
-    {id: '3', pacient: 'Native', propietary: 'Yuliana', sintoms: 'No canta'},
+    { id: '1', pacient: 'Hook', propietary: 'Andres', sintoms: 'No come' },
+    { id: '2', pacient: 'Redux', propietary: 'Mapaz', sintoms: 'No duerme' },
+    { id: '3', pacient: 'Native', propietary: 'Yuliana', sintoms: 'No canta' },
   ]);
   //Delete
   const deletePacient = id => {
@@ -24,23 +32,41 @@ const App = () => {
       return dateActual.filter(date => date.id !== id);
     });
   };
+  const displayForm = () => {
+    saveShowForm(!showForm);
+  };
   return (
     <>
       <View style={styles.container}>
         <Text style={styles.title}>Administrador de Citas</Text>
+        <View>
+          <TouchableHighlight
+            onPress={() => displayForm()}
+            style={styles.btnShowForm}>
+            <Text style={styles.textShowForm}> Create new Date</Text>
+          </TouchableHighlight>
+        </View>
         <View style={styles.content}>
-          <Form />
-          <Text style={styles.title}>
-            {dates.length > 0 ? 'Administra tus Citas' : 'No hay citas'}{' '}
-          </Text>
-          <FlatList
-            style={styles.list}
-            data={dates}
-            renderItem={({item}) => (
-              <Date date={item} deletePacient={deletePacient} />
-            )}
-            keyExtractor={date => date.id}
-          />
+          {showForm ? (
+            <>
+              <Text style={styles.title}>Crear Cita</Text>
+              <Form />
+            </>
+          ) : (
+            <>
+              <Text style={styles.title}>
+                {dates.length > 0 ? 'Administra tus Citas' : 'No hay citas'}{' '}
+              </Text>
+              <FlatList
+                style={styles.list}
+                data={dates}
+                renderItem={({ item }) => (
+                  <Date date={item} deletePacient={deletePacient} />
+                )}
+                keyExtractor={date => date.id}
+              />
+            </>
+          )}
         </View>
       </View>
     </>
@@ -53,7 +79,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    marginTop: 20,
+    marginTop: Platform.OS === 'ios' ? 40 : 20,
     marginBottom: 20,
     textAlign: 'center',
     fontSize: 24,
@@ -66,6 +92,16 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
+  },
+  btnShowForm: {
+    padding: 10,
+    backgroundColor: '#7D024E',
+    marginVertical: 30,
+  },
+  textShowForm: {
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
