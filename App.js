@@ -28,17 +28,20 @@ const App = () => {
     <>
       <View style={styles.container}>
         <Text style={styles.title}>Administrador de Citas</Text>
-        <Form />
-        <Text style={styles.title}>
-          {dates.length > 0 ? 'Administra tus Citas' : 'No hay citas'}{' '}
-        </Text>
-        <FlatList
-          data={dates}
-          renderItem={({item}) => (
-            <Date date={item} deletePacient={deletePacient} />
-          )}
-          keyExtractor={date => date.id}
-        />
+        <View style={styles.content}>
+          <Form />
+          <Text style={styles.title}>
+            {dates.length > 0 ? 'Administra tus Citas' : 'No hay citas'}{' '}
+          </Text>
+          <FlatList
+            style={styles.list}
+            data={dates}
+            renderItem={({item}) => (
+              <Date date={item} deletePacient={deletePacient} />
+            )}
+            keyExtractor={date => date.id}
+          />
+        </View>
       </View>
     </>
   );
@@ -56,6 +59,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#fff',
+  },
+  content: {
+    flex: 1,
+    marginHorizontal: '2.5%',
+  },
+  list: {
+    flex: 1,
   },
 });
 
