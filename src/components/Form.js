@@ -10,8 +10,9 @@ import {
   ScrollView,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import shortid from 'shortid';
 
-const Form = () => {
+const Form = ({dates, setDates, saveShowForm}) => {
   const [pacient, savePacient] = useState('');
   const [propietary, savePropietary] = useState('');
   const [phone, savePhone] = useState('');
@@ -62,6 +63,14 @@ const Form = () => {
       showAlert();
       return;
     }
+    const dayDate = {pacient, propietary, phone, date, time, sintoms};
+    dayDate.id = shortid.generate();
+    const newDates = [...dates, dayDate];
+    setDates(newDates);
+
+    // Hide form
+    saveShowForm(false);
+    // Reset Form
   };
 
   const showAlert = () => {

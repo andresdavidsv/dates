@@ -6,13 +6,15 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   FlatList,
   TouchableHighlight,
+  TouchableWithoutFeedback,
+  Keyboard,
   Platform,
 } from 'react-native';
 import Date from './src/components/Dates';
@@ -22,9 +24,9 @@ const App = () => {
   const [showForm, saveShowForm] = useState(false);
   // Define state of dates
   const [dates, setDates] = useState([
-    { id: '1', pacient: 'Hook', propietary: 'Andres', sintoms: 'No come' },
-    { id: '2', pacient: 'Redux', propietary: 'Mapaz', sintoms: 'No duerme' },
-    { id: '3', pacient: 'Native', propietary: 'Yuliana', sintoms: 'No canta' },
+    {id: '1', pacient: 'Hook', propietary: 'Andres', sintoms: 'No come'},
+    {id: '2', pacient: 'Redux', propietary: 'Mapaz', sintoms: 'No duerme'},
+    {id: '3', pacient: 'Native', propietary: 'Yuliana', sintoms: 'No canta'},
   ]);
   //Delete
   const deletePacient = id => {
@@ -35,40 +37,51 @@ const App = () => {
   const displayForm = () => {
     saveShowForm(!showForm);
   };
+  const closeKeyboard = () => {
+    Keyboard.dismiss();
+  };
   return (
     <>
-      <View style={styles.container}>
-        <Text style={styles.title}>Administrador de Citas</Text>
-        <View>
-          <TouchableHighlight
-            onPress={() => displayForm()}
-            style={styles.btnShowForm}>
-            <Text style={styles.textShowForm}> Create new Date</Text>
-          </TouchableHighlight>
-        </View>
-        <View style={styles.content}>
-          {showForm ? (
-            <>
-              <Text style={styles.title}>Crear Cita</Text>
-              <Form />
-            </>
-          ) : (
-            <>
-              <Text style={styles.title}>
-                {dates.length > 0 ? 'Administra tus Citas' : 'No hay citas'}{' '}
+      <TouchableWithoutFeedback onPress={() => closeKeyboard()}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Administrador de Citas</Text>
+          <View>
+            <TouchableHighlight
+              onPress={() => displayForm()}
+              style={styles.btnShowForm}>
+              <Text style={styles.textShowForm}>
+                {showForm ? 'Cancel Date' : 'Create new Date'}
               </Text>
-              <FlatList
-                style={styles.list}
-                data={dates}
-                renderItem={({ item }) => (
-                  <Date date={item} deletePacient={deletePacient} />
-                )}
-                keyExtractor={date => date.id}
-              />
-            </>
-          )}
+            </TouchableHighlight>
+          </View>
+          <View style={styles.content}>
+            {showForm ? (
+              <>
+                <Text style={styles.title}>Crear Cita</Text>
+                <Form
+                  dates={dates}
+                  setDates={setDates}
+                  saveShowForm={saveShowForm}
+                />
+              </>
+            ) : (
+              <>
+                <Text style={styles.title}>
+                  {dates.length > 0 ? 'Administra tus Citas' : 'No hay citas'}{' '}
+                </Text>
+                <FlatList
+                  style={styles.list}
+                  data={dates}
+                  renderItem={({item}) => (
+                    <Date date={item} deletePacient={deletePacient} />
+                  )}
+                  keyExtractor={date => date.id}
+                />
+              </>
+            )}
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </>
   );
 };
